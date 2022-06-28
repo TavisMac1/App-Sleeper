@@ -2,20 +2,18 @@ import subprocess
 from ast import And
 from asyncio.windows_events import NULL
 from tabnanny import check
-import wmi
+#import wmi
 import psutil
-winRef = wmi.WMI() #ref to WMI
+#winRef = wmi.WMI() #ref to WMI
 
 appToExlude = "steam.exe" #which app should be excluded?
-allAvailableApps = [] #get all available apps
-appToMonitor = "" #app for us to monitor, when its network usage is normal, awaken apps
+appToMonitor = psutil #app for us to monitor, when its network usage is normal, awaken apps
 appsToSleep = [] # apps to sleep
 
 cmd = 'powershell "gps | where {$_.MainWindowTitle } | select Name'
 proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 
-
-def killAllTmp(): # put apps to sleep aside from exluded apps
+def automaticSleep(): # put apps to sleep aside from exluded apps
 
     for line in proc.stdout:
         if line.rstrip():
@@ -55,13 +53,4 @@ def killAllTmp(): # put apps to sleep aside from exluded apps
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     pass
             break
-killAllTmp()
-
-def getNames(): #get names of apps -> for displaying to the user in GUI
-    for x in psutil.process_iter():
-        try:
-            allAvailableApps.append(x.name())
-            print(x.name())
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-#getNames()
+#automaticSleep()
