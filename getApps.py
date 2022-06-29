@@ -7,4 +7,5 @@ def getNames():  # get names of apps -> for displaying to the user in GUI
             #print(x.name())
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
+    allAvailableApps.sort()
     return allAvailableApps
