@@ -32,7 +32,7 @@ appSel.grid(column=0, row=2)
 def detectNewEntry():
     row = 2
     for x in selectedApps:
-        if x == 0:
+        if x == 3:
             break
         row = row + 1
         makeNewEntry("i", x, 0, row)
@@ -49,7 +49,7 @@ def addNoSleep():
 
 def sleepIt():  # put apps to sleep manually
 
-    if selectedApps.count == 0:
+    if selectedApps.count == 3:
         messagebox.showinfo("need one app selected")
         exit()
 
@@ -58,10 +58,10 @@ def sleepIt():  # put apps to sleep manually
 
     for line in proc.stdout:
         if line.rstrip():
-            if not line.decode().rstrip() in selectedApps:
+            if not line.decode().rstrip() + ".exe" in selectedApps:
                 appsToSleep.append(line.decode().rstrip() + ".exe")
                 #print(line.decode().rstrip())
-                #print(selectedApps)
+                #print(appsToSleep)
 
     for x in psutil.process_iter():
         if not x.name() in selectedApps:
@@ -74,7 +74,7 @@ def sleepIt():  # put apps to sleep manually
 
 def awakenIt():  # awaken the apps
 
-    if selectedApps.count == 0:
+    if selectedApps.count == 3:
         messagebox.showinfo("need one app selected")
         exit()
 
