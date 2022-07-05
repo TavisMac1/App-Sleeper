@@ -2,6 +2,7 @@ import subprocess
 from ast import And
 from asyncio.windows_events import NULL
 from tabnanny import check
+from tkinter import messagebox
 #import wmi
 import psutil
 #winRef = wmi.WMI() #ref to WMI
@@ -13,7 +14,11 @@ appsToSleep = [] # apps to sleep
 cmd = 'powershell "gps | where {$_.MainWindowTitle } | select Name'
 proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 
-def automaticSleep(): # put apps to sleep aside from exluded apps
+def automaticSleep(tmpApp, tmpAppsExlude): # put apps to sleep aside from exluded apps
+
+    if tmpApp == "":
+        messagebox.showerror(title="Err", message="no app to monitor :(")
+        exit()
 
     for line in proc.stdout:
         if line.rstrip():
